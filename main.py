@@ -9,7 +9,6 @@ app = FastAPI()
 
 db = []
 
-
 @app.post("/images/")
 async def create_upload_file(file: UploadFile = File(...)):
 
@@ -24,11 +23,7 @@ async def create_upload_file(file: UploadFile = File(...)):
 @app.get("/images/")
 async def read_random_file():
 
-    # get a random file from the image db
     random_index = randint(0, len(db) - 1)
-
-    # return a response object directly as FileResponse expects a file-like object
-    # and StreamingResponse expects an iterator/generator
     response = Response(content=db[random_index])
 
     return response
@@ -36,15 +31,11 @@ async def read_random_file():
 @app.get("/images/800x400")
 async def show_image():  
     
-    # get a random file from the image db
     random_index = randint(0, len(db) - 1)
-
-    # return a response object directly as FileResponse expects a file-like object
-    # and StreamingResponse expects an iterator/generator
     response = Response(content=db[random_index])
 
+#I wanted to implement this part of code taken from the Pillow library documentation to display 800x400 image.
     size = 800, 400
-
     for infile in glob.glob("*.jpg"):
         file, ext = os.path.splitext(infile)
         im = Image.open(infile)
